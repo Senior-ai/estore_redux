@@ -1,6 +1,6 @@
 const initialState = [
-    {id: 0, fname: 'Yossi', lname: 'Levi', city: 'Haifa'}, 
-    {id: 1, fname: 'Arthur', lname: 'Onomi', city: 'Tel Aviv'}
+    {id: 'Asav23ds', fname: 'Yossi', lname: 'Levi', city: 'Haifa'}, 
+    {id: 'LJGFDS265', fname: 'Arthur', lname: 'Onomi', city: 'Tel Aviv'}
 ]
 
 export default function customersReducer(state = initialState, action) {

@@ -10,8 +10,9 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 
-const EditFormComp = (props) => {
+const EditProductComp = (props) => {
   const product = props.product;
+  console.log(product);
   React.useEffect(() => {
     setNewProduct(product);
   }, []);
@@ -68,4 +69,4 @@ const EditFormComp = (props) => {
   )
 }
 
-export default EditFormComp;
+export default EditProductComp;

@@ -19,9 +19,25 @@ export const TableComp = (props) => {
    setRows(storeData.products);
    setColumns(['Name', 'Price', 'Quantity']); 
   }
+  else if (props.context === 'customers')
+  {
+    const customers = storeData.customers.map(customer => {
+      const purchases = storeData.purchases.filter(purchase=> purchase.customerId === customer.id);
+      const customerWithPurchases = {
+        ...customer,
+        purchases: purchases.map(purchase => {
+          const product = storeData.products.find(product => product.id === purchase.productId);
+          return {
+            ...purchase,
+            product: product
+          };
+        })
+      };
+      return customerWithPurchases});
+    setRows(customers);
+    setColumns(['Name','Purchased Products','Purchase Dates'])
+  }
   else if (props.context === 'purchases') {
-    console.log(props.product)
-    console.log(props.product.name)
     const purchases = storeData.purchases.filter(purchase => purchase.productId === props.product.id); 
     //Find all purchases of the product
     const customerIds = purchases.map(purchase => {return {id: purchase.customerId, date: purchase.date}});
@@ -43,7 +59,7 @@ export const TableComp = (props) => {
           <TableRow>
             <TableCell />
             <TableCell>{columns[0]}</TableCell>
-            <TableCell align="right">{columns[1]}</TableCell>
+            <TableCell align="center">{columns[1]}</TableCell>
             <TableCell align="right">{columns[2]}&nbsp;</TableCell>
           </TableRow>
         </TableHead>

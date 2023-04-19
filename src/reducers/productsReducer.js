@@ -1,6 +1,6 @@
 const initialState = [
-    {id: 0, name: 'Rolex Watch', price: 7500, quantity: 2},
-    {id: 1, name: 'Fidget Cube', price: 2, quantity: 100}
+    {id: 'posadL12', name: 'Rolex Watch', price: 7500, quantity: 2},
+    {id: 'powqedlas89', name: 'Fidget Cube', price: 2, quantity: 100}
 ]
 
 export default function productsReducer(state = initialState, action) {

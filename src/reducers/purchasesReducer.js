@@ -1,6 +1,6 @@
 const initialState = [
-    {id: 0, customerId: 1, productId: 1, date: '16/04/2023'}, 
-    {id: 1, customerId: 0, productId: 0, date: '17/04/2023'}
+    {id: 0, customerId: 'LJGFDS265', productId: 'powqedlas89', date: '16/04/2023'}, 
+    {id: 1, customerId: 'Asav23ds', productId: 'posadL12', date: '17/04/2023'}
 ]
 //TODO - After removing the initialState here, return the state to 'state = []'
 export default function purchasesReducer(state = initialState, action) {

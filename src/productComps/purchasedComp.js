@@ -18,7 +18,7 @@ const PurchasedComp = (props) => {
   useEffect(() => {
     if (props.context === 'products')
     {
-      const purchases = storeData.purchases.filter(purchase => parseInt(purchase.productId) === parseInt(props.row.id))
+      const purchases = storeData.purchases.filter(purchase => purchase.productId === props.row.id)
       setData(purchases);
     }
   }, [props.context]);
