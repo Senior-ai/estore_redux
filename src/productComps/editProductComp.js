@@ -12,7 +12,6 @@ import Button from '@mui/material/Button';
 
 const EditProductComp = (props) => {
   const product = props.product;
-  console.log(product);
   React.useEffect(() => {
     setNewProduct(product);
   }, []);

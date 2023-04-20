@@ -12,24 +12,25 @@ import { useEffect } from 'react';
 const DetailedRow = (props) => {
 const { row } = props;
 const location = useLocation();
-const locationContext = location.state || '';
+const locationContext = location.pathname || '';
 const [open, setOpen] = React.useState(false);
 const [cells, setCells] = React.useState([]);
 const [context, setContext] = React.useState('');
+
 useEffect(() => {
     if (props.context === 'products') {
         setCells([row.name, row.price, row.quantity]);
-        setContext('products');
+        setContext(props.context);
     }
     else if (props.context === 'purchases') {
         setCells([(row.fname + ' ' + row.lname), row.city, row.date]);
         setContext('customers');
     }
     else if (props.context === 'customers') {
-        const products = row.purchases.map(purchase => purchase.product.name);
+        const products = row.purchases.map(purchase => purchase.product);
         const purchaseDates = row.purchases.map(purchase => purchase.date);
         setCells([(row.fname + ' ' + row.lname), products,purchaseDates]);
-        if (locationContext === 'customers2')
+        if (locationContext.includes('/customers/'))
             {setContext('customers2');}
         else
             setContext('customers');
@@ -47,11 +48,20 @@ useEffect(() => {
             </TableCell>
             <TableCell component="th" scope="row">
             {context === 'customers' ? (
-            <Link state={'customers2'} to={`/${context}/${row.id}`}>{cells[0]}</Link>) : (
+            <Link to={`/customers/${row.id}`}>{cells[0]}</Link>) : (
             context === 'customers2' ? (cells[0]) : (
-            <Link to={`/${context}/${row.id}`}>{cells[0]}</Link>))}
+            (<Link to={`/${context}/${row.id}`}>{cells[0]}</Link>)))}
             </TableCell>
-            <TableCell align="center">{cells[1]}</TableCell>
+            <TableCell align="center">
+            {context.includes('customers') ? ( locationContext.includes('/products/')? (cells[1]) :
+             (cells[1].map(product => {
+                const productId = row.purchases.find(purchase => purchase.product.name === product.name)?.product.id;
+                return (<Link to={`/products/${productId}`} key={product.name}>
+                            {product.name}
+                        </Link>);
+                }))) : (cells[1])
+            }
+            </TableCell>
             <TableCell align="right">{cells[2]}</TableCell>
         </TableRow>
         <TableRow>

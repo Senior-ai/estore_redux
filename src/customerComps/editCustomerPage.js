@@ -7,7 +7,6 @@ import {useSelector, useDispatch } from 'react-redux'
 
 const EditCustomerPage = () => {
   const {id} = useParams();
-  console.log(id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
@@ -15,7 +14,6 @@ const EditCustomerPage = () => {
 
   const customers = storeData.customers;
   const customer = customers.find(x => x.id === id);
-    console.log(customer);
   const updateCustomer = (obj) => {
     dispatch({type: "UPDATE_CUSTOMER", payload: obj})
     navigate('/customers', {replace: true})
@@ -30,7 +28,6 @@ const EditCustomerPage = () => {
   }
   const handleOpen = () => {setOpen(true);}
   const handleClose = () => {setOpen(false);}
-  console.log(customer);
   return (
     <div style={{backgroundColor: '#0288d1', height: '600px'}}>
       <AlertDialog open={open} handleClose={handleClose} deleteCustomer={deleteCustomer}/>

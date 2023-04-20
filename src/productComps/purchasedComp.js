@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 const PurchasedComp = (props) => {
   const storeData = useSelector(state => state);
   const [data, setData] = React.useState([]);
-
   useEffect(() => {
     if (props.context === 'products')
     {
@@ -42,7 +41,7 @@ const PurchasedComp = (props) => {
                       <TableCell component="th" scope="row">
                         {obj.date}
                       </TableCell>
-                      <TableCell><Link to={`/${props.context}/${obj.id}`}>{storeData.customers.filter(customer => customer.id === obj.customerId)
+                      <TableCell><Link to={`/customers/${obj.customerId}`}>{storeData.customers.filter(customer => customer.id === obj.customerId)
                       .map(customer => customer.fname +' '+ customer.lname)}</Link></TableCell>
                       <TableCell>
                       <Link to="/purchases/addNew" state={obj}><Button variant="contained" endIcon={<SendIcon />}>Add</Button></Link>

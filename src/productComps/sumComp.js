@@ -7,7 +7,6 @@ import { CardActionArea } from '@mui/material';
 const SumComp = () => {
     const storeData = useSelector(state => state);
     const loadSum = () => {
-        console.log(storeData.purchases);
         const productIds = storeData.purchases.map(purchase => purchase.productId);
         const products = productIds.map(productId => 
           storeData.products.find(product => product.id === productId));

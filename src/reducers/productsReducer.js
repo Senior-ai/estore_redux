@@ -8,14 +8,12 @@ switch (action.type) {
     case "ADD_PRODUCT":
         return {...state, products: [...state.products, action.payload]};
     case "DELETE_PRODUCT":
-        console.log(state);
         let arr = [...state];
         let index = arr.findIndex(x => x.id === action.payload.id);            
         if(index >= 0)
         {
             arr.splice(index,1)
         }
-        console.log(arr)
         return arr;
     case "UPDATE_PRODUCT":
         let obj = action.payload;

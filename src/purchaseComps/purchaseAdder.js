@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import {useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {generateId, getCurrentDate} from '../reducers/generateFunctions';
+
 const PurchaseAdder = () => {
   const storeData = useSelector(state => state);
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ const PurchaseAdder = () => {
   const handlePurchase = () => {
     const obj = {id: generateId(), customerId: customerId,
       productId: chosenProduct, date: getCurrentDate()}
-      console.log(obj);
     dispatch({type: "ADD_PURCHASE", payload: obj})
     navigate('/products', {replace: true})
   }
