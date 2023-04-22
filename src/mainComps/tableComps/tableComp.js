@@ -39,7 +39,6 @@ export const TableComp = (props) => {
   }
   else if (props.context === 'purchases') {
     const purchases = storeData.purchases.filter(purchase => purchase.productId === props.product.id); 
-    //Find all purchases of the product
     const customerIds = purchases.map(purchase => {return {id: purchase.customerId, date: purchase.date}});
     
     const customers = customerIds.map(customerId => {
@@ -48,10 +47,16 @@ export const TableComp = (props) => {
     });
     setRows(customers);
     setColumns(['Name', 'City', 'Date'])
+  }
+  else if (props.context === 'allPurchases') {
+    console.log(props.data);
+    setRows(props.data);
+    setColumns(['Name', 'Product', 'Date'])
   }  
   }, [props.context]);
 
   return (
+    
     <div style={{height: '250px'}}>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">

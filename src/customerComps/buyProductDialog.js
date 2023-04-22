@@ -19,9 +19,12 @@ const BuyProductDialog = (props) => {
     const [chosenProduct, setChosenProduct] = React.useState({});
 
     const handlePurchase = () => {
-        const obj = {id: generateId(), customerId: chosenCustomer,
-            productId: chosenProduct, date: getCurrentDate()}
-          dispatch({type: "ADD_PURCHASE", payload: obj})
+        console.log(chosenCustomer)
+        const obj = {id: generateId(), customerId: chosenCustomer.id,
+            productId: chosenProduct.id, date: getCurrentDate()}
+          dispatch({type: "ADD_PURCHASE", payload: obj});
+         props.handleDialog();
+         props.setSuccess(true); 
     }
 
   return (
@@ -42,7 +45,7 @@ const BuyProductDialog = (props) => {
             id="combo-box-demo"
             options={customersNames}
             getOptionLabel={(option) => option.name}
-            onChange={(e) => setChosenCustomer(e.target.value)}
+            onChange={(event, value) => setChosenCustomer(value)}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Customer"/>}
           /> <br/>
@@ -51,7 +54,7 @@ const BuyProductDialog = (props) => {
             id="combo-box-demo"
             options={productNames}
             getOptionLabel={(option) => option.name}
-            onChange={(e) => setChosenProduct(e.target.value)}
+            onChange={(event, value) => setChosenProduct(value)}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Product"/>}
           />
@@ -64,4 +67,4 @@ const BuyProductDialog = (props) => {
     </div>
   )
 }
-export default BuyProductDialog;
+export default React.memo(BuyProductDialog);

@@ -1,11 +1,23 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import FilterTableComp from './filterTableComp';
+import TableComp from '../mainComps/tableComps/tableComp';
+import {useSelector } from 'react-redux'
 
 const PurchasesPage = () => {
-  return (
-    <div>
+  const storeData = useSelector(state => state);
+  const [data, setData] = useState([]);
+  useEffect(() => {filterTable();}, []);
+  
+  const filterTable = () => {
+    const purchases = storeData.purchases;
 
-      purchasesPage
-      </div>
+    setData(purchases);
+  }
+  return (
+    <div style={{backgroundColor: '#0288d1', height: '600px'}}>
+      <FilterTableComp filterTable={filterTable}/>
+      <TableComp context={'allPurchases'} data={data}></TableComp>
+    </div>
   )
 }
 export default PurchasesPage;
