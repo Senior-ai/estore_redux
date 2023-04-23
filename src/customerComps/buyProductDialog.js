@@ -19,7 +19,6 @@ const BuyProductDialog = (props) => {
     const [chosenProduct, setChosenProduct] = React.useState({});
 
     const handlePurchase = () => {
-        console.log(chosenCustomer)
         const obj = {id: generateId(), customerId: chosenCustomer.id,
             productId: chosenProduct.id, date: getCurrentDate()}
           dispatch({type: "ADD_PURCHASE", payload: obj});

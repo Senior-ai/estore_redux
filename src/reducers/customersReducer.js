@@ -8,7 +8,7 @@ switch (action.type) {
     case "ADD_CUSTOMER":
         return {...state, customers: [...state.customers, action.payload]};
     case "DELETE_CUSTOMER":
-        let customerArr = [...state.customers];
+        let customerArr = [...state];
         let customerIndex = customerArr.findIndex(x => x.id === action.payload.id);            
         if(customerIndex >= 0)
         {

@@ -5,10 +5,35 @@ import Alert from '@mui/material/Alert';
 import { purple } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import BuyProductDialog from './buyProductDialog';
+import {useSelector } from 'react-redux'
 
 const CustomersPage = () => {
+  const storeData = useSelector(state => state);
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  
+  React.useEffect(() => {
+    customerData();   
+  }, [storeData.purchases]);
+
+  const customerData = () => {
+    const customers = storeData.customers.map(customer => {
+      const purchases = storeData.purchases.filter(purchase=> purchase.customerId === customer.id);
+      const customerWithPurchases = {
+        ...customer,
+        purchases: purchases.map(purchase => {
+          const product = storeData.products.find(product => product.id === purchase.productId);
+          return {
+            ...purchase,
+            product: product
+          };
+        })
+      };
+      return customerWithPurchases});
+    return customers; 
+  }
+    
+  const [data, setData] = React.useState(customerData);
   const handleDialog = () => {setOpen(!open);}
   
   React.useEffect(() => {
@@ -28,7 +53,7 @@ const CustomersPage = () => {
         <ColorButton variant="contained" size="large" onClick={handleDialog}>Buy Product</ColorButton>
         {success? (<Alert severity="success">This is a success alert — check it out!</Alert>) : ('')}
         <br/><br/>
-        <TableComp context={'customers'} success={success}/>
+        <TableComp context={'customers'} key={data} success={success} data={data}/>
     </div>
   )
 }

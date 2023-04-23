@@ -13,10 +13,10 @@ function App() {
   const location = useLocation();
   const shouldRenderNavBar = location.pathname === '/products'
    || location.pathname === '/customers' || location.pathname === '/purchases';
-  
+  const shouldRenderBackComp = location.pathname === '/';
   return (
     <div className="App">
-      {shouldRenderNavBar ? <NavBarComp /> : <BackComp/>}
+      {shouldRenderNavBar ? <NavBarComp /> : shouldRenderBackComp? '':<BackComp/>}
       <Routes>
         <Route path='/' element={<MenuPage/>}/>
         <Route path='/products' element={<ProductPage/>}/>

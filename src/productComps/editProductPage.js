@@ -21,7 +21,7 @@ const EditProductPage = () => {
     navigate('/products', {replace: true})
       //return <Alert severity="success">Updated Successfully!</Alert>
   }
-  const deleteProduct = () => {
+  const deleteObject = () => {
     dispatch({type : "DELETE_PRODUCT", payload : product})
     dispatch({type: 'DELETE_PRODUCT_PURCHASES', payload: product.id})
     setOpen(false);
@@ -32,7 +32,7 @@ const EditProductPage = () => {
   const handleClose = () => {setOpen(false);}
   return (
     <div style={{backgroundColor: '#0288d1', height: '600px'}}>
-      <AlertDialog open={open} handleClose={handleClose} deleteProduct={deleteProduct}/>
+      <AlertDialog open={open} handleClose={handleClose} deleteObject={deleteObject} context='product'/>
       <br/>
       <EditProductComp updateProduct={updateProduct} handleOpen={handleOpen} product={product} context='products'/>
       <br/>

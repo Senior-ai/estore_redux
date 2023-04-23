@@ -12,6 +12,7 @@ import {useSelector } from 'react-redux'
 export const TableComp = (props) => {
   const [rows, setRows] = React.useState([]);
   const [columns, setColumns] = React.useState([])
+  const [data, setData] = React.useState(props.data);
   const storeData = useSelector(state => state);
 
   React.useEffect(() => {
@@ -21,20 +22,7 @@ export const TableComp = (props) => {
   }
   else if (props.context === 'customers')
   {
-    const customers = storeData.customers.map(customer => {
-      const purchases = storeData.purchases.filter(purchase=> purchase.customerId === customer.id);
-      const customerWithPurchases = {
-        ...customer,
-        purchases: purchases.map(purchase => {
-          const product = storeData.products.find(product => product.id === purchase.productId);
-          return {
-            ...purchase,
-            product: product
-          };
-        })
-      };
-      return customerWithPurchases});
-    setRows(customers);
+    setRows(data);
     setColumns(['Name','Purchased Products','Purchase Dates'])
   }
   else if (props.context === 'purchases') {
@@ -49,9 +37,13 @@ export const TableComp = (props) => {
     setColumns(['Name', 'City', 'Date'])
   }
   else if (props.context === 'allPurchases') {
-    console.log(props.data);
-    setRows(props.data);
+    setRows(data);
     setColumns(['Name', 'Product', 'Date'])
+  }
+  else if (props.context === 'editCustomers')
+  {
+    setRows(data.purchases);
+    setColumns(['Name','Purchased Product','Purchase Date']);
   }  
   }, [props.context]);
 
@@ -69,13 +61,13 @@ export const TableComp = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <DetailedRow key={row.id} context={props.context} row={row} />
-          ))}
+          {rows.map((row) => {
+            return (<DetailedRow key={row.id} context={props.context} row={row} />
+          )})}
         </TableBody>
       </Table>
     </TableContainer>
     </div>
   );
 }
-export default TableComp;
+export default React.memo(TableComp);

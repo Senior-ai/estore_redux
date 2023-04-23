@@ -5,9 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useLocation } from 'react-router-dom';
 export default function AlertDialog(props) {
-  const location = useLocation();
   return (
     <div>
       <Dialog
@@ -17,16 +15,16 @@ export default function AlertDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete this product?
+          Are you sure you want to delete this {props.context}?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This means all the data of the product including its purchases will be gone!
+            This means all the data of the {props.context} including its purchases will be gone!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose}>Disagree</Button>
-          <Button onClick={props.deleteProduct} autoFocus>
+          <Button onClick={props.deleteObject} autoFocus>
             Agree
           </Button>
         </DialogActions>

@@ -8,16 +8,17 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
 const DetailedRow = (props) => {
 const { row } = props;
+const storeData = useSelector(state => state);
 const location = useLocation();
 const locationContext = location.pathname || '';
 const [open, setOpen] = useState(false);
 const [cells, setCells] = useState([]);
 const [context, setContext] = useState('');
 
-useEffect(() => {checkContext();}, []);
+useEffect(() => {checkContext();}, [row, props.context]);
 
     const checkContext = () => {
         if (props.context === 'products') {
@@ -32,18 +33,18 @@ useEffect(() => {checkContext();}, []);
             const products = row.purchases.map(purchase => purchase.product);
             const purchaseDates = row.purchases.map(purchase => purchase.date);
             setCells([(row.fname + ' ' + row.lname), products ,purchaseDates]);
-            if (locationContext.includes('/customers/'))
-                {setContext('customers2');}
-            else
-                setContext('customers');
+            setContext('customers')
         }
         else if (props.context === 'allPurchases')
         {
-            console.log(row);
-            setCells([row.customerId, row.productId, row.date]);
-            setContext('customers');
+            setCells([row.customerName, row.productName, row.date]);
+            setContext('purchases');
         }
-}
+        else if (props.context === 'editCustomers')
+        {const customer = storeData.customers.find(customer => customer.id === row.customerId)
+            setCells([(customer.fname +" "+customer.lname), row.productName, row.purchaseDate])
+        setContext('editCustomers')}
+}       
   return (
         <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -56,23 +57,23 @@ useEffect(() => {checkContext();}, []);
             <TableCell component="th" scope="row">
             {context === 'customers' ? (
             <Link to={`/customers/${row.id}`}>{cells[0]}</Link>) : (
-            context === 'customers2' ? (cells[0]) : (
-            (<Link to={`/${context}/${row.id}`}>{cells[0]}</Link>)))}
+            context === 'purchases'? (<Link to={`/customers/${row.customerId}`}>{cells[0]}</Link>) : 
+            (context === 'editCustomers'? (cells[0]) :
+             (<Link to={`/${context}/${row.id}`}>{cells[0]}</Link>)))}
             </TableCell>
             <TableCell align="center">
-            {context.includes('customers') ? ( locationContext.includes('/products/')? (cells[1]) :
+            {context === 'customers' ? ( locationContext.includes('/products/')? (cells[1]) :
              (cells[1].map(product => {
-                const productId = row.purchases.find(purchase => purchase.product.name === product.name)?.product.id;
-                return (<><Link to={`/products/${productId}`} key={productId}>
-                            {product.name}
-                        </Link>, </>);
-                }))) : (cells[1])
-            }
+             const productId = row.purchases.find(purchase => purchase.product.name === product.name)?.product.id;
+             return (<><Link to={`/products/${productId}`} key={productId}>{product.name}</Link>, </>);
+                }))) : (context === 'purchases'? (<Link to={`/products/${row.productId}`}>{cells[1]}</Link>)
+                 :(context === 'editCustomers'? <Link to={`/products/${row.productId}`}>{cells[1]}</Link>:cells[1]))}
             </TableCell>
-            <TableCell align="right">{cells[2] && locationContext.includes('/customer')? 
+            <TableCell align="right">
+            {context === 'editCustomers'? (cells[2]) : (cells[2] && locationContext.includes('/customer')? 
             (cells[2].map(date => {const tempDate = date.toString();
                 return(<div>{tempDate}, </div>)}))
-            : cells[2]}
+            : (cells[2]))}
             </TableCell>
         </TableRow>
         <TableRow>
@@ -86,4 +87,4 @@ useEffect(() => {checkContext();}, []);
     );
     }
 
-export default DetailedRow
+export default React.memo(DetailedRow);
