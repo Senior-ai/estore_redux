@@ -9,6 +9,7 @@ import BackComp from './mainComps/navigation/backComp';
 import EditProductPage from './productComps/editProductPage';
 import EditCustomerPage from './customerComps/editCustomerPage';
 import PurchaseAdder from './purchaseComps/purchaseAdder';
+
 function App() {
   const location = useLocation();
   const shouldRenderNavBar = location.pathname === '/products'

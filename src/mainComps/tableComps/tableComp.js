@@ -12,7 +12,6 @@ import {useSelector } from 'react-redux'
 export const TableComp = (props) => {
   const [rows, setRows] = React.useState([]);
   const [columns, setColumns] = React.useState([])
-  const [data, setData] = React.useState(props.data);
   const storeData = useSelector(state => state);
 
   React.useEffect(() => {
@@ -22,7 +21,7 @@ export const TableComp = (props) => {
   }
   else if (props.context === 'customers')
   {
-    setRows(data);
+    setRows(props.data);
     setColumns(['Name','Purchased Products','Purchase Dates'])
   }
   else if (props.context === 'purchases') {
@@ -37,15 +36,15 @@ export const TableComp = (props) => {
     setColumns(['Name', 'City', 'Date'])
   }
   else if (props.context === 'allPurchases') {
-    setRows(data);
+    setRows(props.data);
     setColumns(['Name', 'Product', 'Date'])
   }
   else if (props.context === 'editCustomers')
   {
-    setRows(data.purchases);
+    setRows(props.data.purchases);
     setColumns(['Name','Purchased Product','Purchase Date']);
   }  
-  }, [props.context]);
+  }, [props.context, props.data]);
 
   return (
     
@@ -61,9 +60,8 @@ export const TableComp = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => {
-            return (<DetailedRow key={row.id} context={props.context} row={row} />
-          )})}
+          {rows.map((row) => <DetailedRow key={row.id} context={props.context} row={row} />
+          )}
         </TableBody>
       </Table>
     </TableContainer>

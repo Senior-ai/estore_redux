@@ -29,12 +29,11 @@ const EditCustomerPage = () => {
   };
   
   const [data, setData] = React.useState(customerWithPurchases);
-  const updateCustomer = () => {
-    dispatch({type: "UPDATE_CUSTOMER", payload: customer})
+  const updateCustomer = (newCustomer) => {
+    dispatch({type: "UPDATE_CUSTOMER", payload: newCustomer})
     navigate('/customers', {replace: true})
   }
   const deleteObject = () => {
-    console.log(customer);
     dispatch({type : "DELETE_CUSTOMER", payload : customer})
     dispatch({type: 'DELETE_CUSTOMER_PURCHASES', payload: customer.id})
     setOpen(false);

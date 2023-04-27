@@ -54,32 +54,34 @@ useEffect(() => {checkContext();}, [row, props.context]);
                 {props.context === 'products'? (open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />) : ''}
             </IconButton>
             </TableCell>
+
             <TableCell component="th" scope="row">
-            {context === 'customers' ? (
-            <Link to={`/customers/${row.id}`}>{cells[0]}</Link>) : (
-            context === 'purchases'? (<Link to={`/customers/${row.customerId}`}>{cells[0]}</Link>) : 
+            {context === 'customers' ? (<Link to={`/customers/${row.id}`}>{cells[0]}</Link>) : 
+            (context === 'purchases'? (<Link to={`/customers/${row.customerId}`}>{cells[0]}</Link>) : 
             (context === 'editCustomers'? (cells[0]) :
-             (<Link to={`/${context}/${row.id}`}>{cells[0]}</Link>)))}
+            (<Link to={`/${context}/${row.id}`}>{cells[0]}</Link>)))}
             </TableCell>
+
             <TableCell align="center">
             {context === 'customers' ? ( locationContext.includes('/products/')? (cells[1]) :
-             (cells[1].map(product => {
+             (cells[1].map((product, index) => {
              const productId = row.purchases.find(purchase => purchase.product.name === product.name)?.product.id;
-             return (<><Link to={`/products/${productId}`} key={productId}>{product.name}</Link>, </>);
-                }))) : (context === 'purchases'? (<Link to={`/products/${row.productId}`}>{cells[1]}</Link>)
-                 :(context === 'editCustomers'? <Link to={`/products/${row.productId}`}>{cells[1]}</Link>:cells[1]))}
+             return (<div key={index}><Link to={`/products/${productId}`}>{product.name}</Link>, </div>);}))) :
+            (context === 'purchases'? (<Link to={`/products/${row.productId}`}>{cells[1]}</Link>) :
+            (context === 'editCustomers'? <Link to={`/products/${row.productId}`}>{cells[1]}</Link>:cells[1]))}
             </TableCell>
+
             <TableCell align="right">
             {context === 'editCustomers'? (cells[2]) : (cells[2] && locationContext.includes('/customer')? 
-            (cells[2].map(date => {const tempDate = date.toString();
-                return(<div>{tempDate}, </div>)}))
+            (cells[2].map((date, index) => {const tempDate = date.toString();
+                return(<div key={index}>{tempDate}, </div>)}))
             : (cells[2]))}
             </TableCell>
         </TableRow>
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <PurchasedComp key={row.id + 1} row={row} context={props.context}/>
+                <PurchasedComp row={row} context={props.context}/>
             </Collapse>
             </TableCell>
         </TableRow>

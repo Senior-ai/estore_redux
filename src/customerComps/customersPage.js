@@ -16,6 +16,8 @@ const CustomersPage = () => {
     customerData();   
   }, [storeData.purchases]);
 
+  const handleDialog = () => {setOpen(!open);}
+
   const customerData = () => {
     const customers = storeData.customers.map(customer => {
       const purchases = storeData.purchases.filter(purchase=> purchase.customerId === customer.id);
@@ -30,30 +32,33 @@ const CustomersPage = () => {
         })
       };
       return customerWithPurchases});
-    return customers; 
+     
+    return customers;
   }
-    
   const [data, setData] = React.useState(customerData);
-  const handleDialog = () => {setOpen(!open);}
-  
-  React.useEffect(() => {
-    if (success) {
-      const timeoutId = setTimeout(() => {
-        setSuccess(false);
-      }, 3000);
-      return () => {
-        clearTimeout(timeoutId);
-      }
-    }
-  }, [success]);
+    React.useEffect(() => {
+        customerData();   
+      }, [storeData.purchases]);
+
+      React.useEffect(() => {
+        if (success) {
+          const timeoutId = setTimeout(() => {
+            setSuccess(false);
+          }, 3000);
+          return () => {
+            clearTimeout(timeoutId);
+            setData(customerData());
+          }
+        }
+      }, [success]);
   return (
-    <div style={{backgroundColor: '#0288d1', height: '600px'}}>
+    <div key={data} style={{backgroundColor: '#0288d1', height: '600px'}}>
         <BuyProductDialog open={open} setSuccess={setSuccess} handleDialog={handleDialog}></BuyProductDialog>
         <br/><br/>
         <ColorButton variant="contained" size="large" onClick={handleDialog}>Buy Product</ColorButton>
         {success? (<Alert severity="success">This is a success alert — check it out!</Alert>) : ('')}
         <br/><br/>
-        <TableComp context={'customers'} key={data} success={success} data={data}/>
+        <TableComp context={'customers'} key={data} data={data}/>
     </div>
   )
 }

@@ -14,16 +14,16 @@ switch (action.type) {
         {
             customerArr.splice(customerIndex,1)
         }
-        return {...state, customers : customerArr};
+        return customerArr;
     case "UPDATE_CUSTOMER":
         let customerObj = action.payload;
-        let customerArr2 = state.products;
+        let customerArr2 = [...state];
         let customerIndex2 = customerArr2.findIndex(x => x.id === customerObj.id);
         if (customerIndex2 >= 0)
         {
             customerArr2[customerIndex2] = customerObj;
         }
-        return {...state, products: customerArr2}
+        return customerArr2;
     default:
         return state
 }

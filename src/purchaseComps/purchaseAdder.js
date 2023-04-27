@@ -16,8 +16,9 @@ const PurchaseAdder = () => {
   const customer = storeData.customers.find(customer => customer.id === customerId);
 
   const handlePurchase = () => {
+    console.log(chosenProduct);
     const obj = {id: generateId(), customerId: customerId,
-      productId: chosenProduct, date: getCurrentDate()}
+      productId: chosenProduct.id, date: getCurrentDate()}
     dispatch({type: "ADD_PURCHASE", payload: obj})
     navigate('/products', {replace: true})
   }
@@ -29,7 +30,7 @@ const PurchaseAdder = () => {
           disablePortal
           id="combo-box-demo"
           options={products}
-          onChange={(e) => setChosenProduct(e.target.value)}
+          onChange={(event, value) => setChosenProduct(value)}
           getOptionLabel={(product) => product.name}
           sx={{ width: 300, padding: '12px' }}
           renderInput={(params) => <TextField {...params} label="Choose a product" />}
